@@ -163,6 +163,15 @@
 </tr>
 
 <tr class="advancedSetting">
+    <th><label for="${params.bepJsonKey}">Also generate a BEP JSON file</label></th>
+    <td>
+        <props:checkboxProperty name="${params.bepJsonKey}" checked="false" className="mediumField">
+        </props:checkboxProperty>
+        <span class="error" id="error_${params.bepJsonKey}"></span>
+    </td>
+</tr>
+
+<tr class="advancedSetting">
     <th><label for="${params.verbosityKey}">Logging verbosity:</label></th>
     <td>
         <props:selectProperty name="${params.verbosityKey}" enableFilter="true" className="mediumField">

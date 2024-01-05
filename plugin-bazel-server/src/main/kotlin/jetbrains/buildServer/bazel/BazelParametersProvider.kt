@@ -48,6 +48,9 @@ class BazelParametersProvider {
     val integrationModeKey: String
         get() = BazelConstants.PARAM_INTEGRATION_MODE
 
+    val bepJsonKey: String
+        get() = BazelConstants.PARAM_BEP_JSON_FILE
+
     val integrationModes: List<IntegrationMode>
         get() = IntegrationMode.values().toList()
 

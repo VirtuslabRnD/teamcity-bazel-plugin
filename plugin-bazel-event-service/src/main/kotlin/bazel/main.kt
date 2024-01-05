@@ -40,12 +40,14 @@ fun main(args: Array<String>) {
     val logger = Logger.getLogger("main")
     val port: Int
     val eventFile: File?
+    val eventJsonFile: File?
     val verbosity: Verbosity
     val bazelCommandlineFile: File?
     try {
         val bazelOptions = BazelOptions(args)
         port = bazelOptions.port
         eventFile = bazelOptions.eventFile
+        eventJsonFile = bazelOptions.eventJsonFile
         verbosity = bazelOptions.verbosity
         bazelCommandlineFile = bazelOptions.bazelCommandlineFile
     } catch (ex: Exception) {
@@ -58,7 +60,7 @@ fun main(args: Array<String>) {
     val messageFactory = MessageFactoryImpl()
 
     if (eventFile != null && bazelCommandlineFile != null) {
-        val bazelRunner = BazelRunner(verbosity, bazelCommandlineFile, 0, eventFile)
+        val bazelRunner = BazelRunner(verbosity, bazelCommandlineFile, 0, eventFile, eventJsonFile)
         val commandLine = bazelRunner.args.joinToString(" ") { if (it.contains(' ')) "\"$it\"" else it }
         println("Starting: $commandLine")
         println("in directory: ${bazelRunner.workingDirectory}")
@@ -101,7 +103,7 @@ fun main(args: Array<String>) {
 
                     if (bazelCommandlineFile != null) {
                         try {
-                            val bazelRunner = BazelRunner(verbosity, bazelCommandlineFile, gRpcServer.port)
+                            val bazelRunner = BazelRunner(verbosity, bazelCommandlineFile, gRpcServer.port, null, eventJsonFile)
                             val commandLine = bazelRunner.args.joinToString(" ") { if (it.contains(' ')) "\"$it\"" else it }
                             println("Starting: $commandLine")
                             println("in directory: ${bazelRunner.workingDirectory}")

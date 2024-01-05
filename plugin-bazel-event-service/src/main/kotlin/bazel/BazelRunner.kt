@@ -27,7 +27,8 @@ class BazelRunner(
         private val _verbosity: Verbosity,
         private val _bazelCommandlineFile: File,
         private val _besPort: Int,
-        private val _eventFile: File? = null) {
+        private val _eventFile: File? = null,
+        private val _eventJsonFile: File? = null) {
 
     val args: Sequence<String>
         get() = sequence {
@@ -67,6 +68,10 @@ class BazelRunner(
             if (_eventFile != null) {
                 yield("${eventBinaryFileArg}${_eventFile.absolutePath}")
             }
+
+            if (_eventJsonFile != null) {
+                yield("${eventJsonFileArg}${_eventJsonFile.absolutePath}")
+            }
         }
 
     val workingDirectory: File = File(".").absoluteFile
@@ -102,6 +107,7 @@ class BazelRunner(
     companion object {
         private const val besBackendArg = "--bes_backend="
         private const val eventBinaryFileArg = "--build_event_binary_file="
+        private const val eventJsonFileArg = "--build_event_json_file="
     }
 
     private class ActiveReader(reader: BufferedReader, action: (line: String) -> Unit) : Disposable {
