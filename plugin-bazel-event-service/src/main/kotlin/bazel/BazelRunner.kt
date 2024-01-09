@@ -100,6 +100,7 @@ class BazelRunner(
         }
 
         process.waitFor()
+        _eventJsonFile?.let { println("##teamcity[publishArtifacts '$it']") }
         val exitCode = process.exitValue()
         return Result(exitCode, errors)
     }

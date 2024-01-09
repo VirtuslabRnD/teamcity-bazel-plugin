@@ -78,7 +78,7 @@ class BesCommandLineBuilder(
 
         _parametersService.tryGetParameter(ParameterType.Runner, PARAM_BEP_JSON_FILE)?.trim()?.let {
             if (it.toBoolean()) {
-                besArgs.add("-j=${File(_pathsService.getPath(PathType.WorkingDirectory), _pathsService.uniqueName + "-build_events.json").absolutePath}")
+                besArgs.add("-j=${File(_pathsService.getPath(PathType.AgentTemp), _pathsService.uniqueName + "-build_events.json").absolutePath}")
             }
         }
 
