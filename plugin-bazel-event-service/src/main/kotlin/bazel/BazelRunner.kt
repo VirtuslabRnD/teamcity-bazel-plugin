@@ -28,7 +28,9 @@ class BazelRunner(
         private val _bazelCommandlineFile: File,
         private val _besPort: Int,
         private val _eventFile: File? = null,
-        private val _eventJsonFile: File? = null) {
+        private val _eventJsonFile: File? = null,
+        private val _profileTraceFile: File? = null,
+        ) {
 
     val args: Sequence<String>
         get() = sequence {
@@ -72,6 +74,10 @@ class BazelRunner(
             if (_eventJsonFile != null) {
                 yield("${eventJsonFileArg}${_eventJsonFile.absolutePath}")
             }
+
+            if (_profileTraceFile != null) {
+                yield("${profileTraceFileArg}${_profileTraceFile.absolutePath}")
+            }
         }
 
     val workingDirectory: File = File(".").absoluteFile
@@ -101,6 +107,7 @@ class BazelRunner(
 
         process.waitFor()
         _eventJsonFile?.let { println("##teamcity[publishArtifacts '$it']") }
+        _profileTraceFile?.let { println("##teamcity[publishArtifacts '$it']") }
         val exitCode = process.exitValue()
         return Result(exitCode, errors)
     }
@@ -109,6 +116,7 @@ class BazelRunner(
         private const val besBackendArg = "--bes_backend="
         private const val eventBinaryFileArg = "--build_event_binary_file="
         private const val eventJsonFileArg = "--build_event_json_file="
+        private const val profileTraceFileArg = "--profile="
     }
 
     private class ActiveReader(reader: BufferedReader, action: (line: String) -> Unit) : Disposable {

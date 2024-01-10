@@ -51,6 +51,9 @@ class BazelParametersProvider {
     val bepJsonKey: String
         get() = BazelConstants.PARAM_BEP_JSON_FILE
 
+    val profileTraceKey: String
+        get() = BazelConstants.PARAM_PROFILE_TRACE_FILE
+
     val integrationModes: List<IntegrationMode>
         get() = IntegrationMode.values().toList()
 

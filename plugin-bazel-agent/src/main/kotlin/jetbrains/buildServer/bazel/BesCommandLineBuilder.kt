@@ -20,6 +20,7 @@ import jetbrains.buildServer.RunBuildException
 import jetbrains.buildServer.agent.FileSystemService
 import jetbrains.buildServer.agent.runner.*
 import jetbrains.buildServer.bazel.BazelConstants.PARAM_BEP_JSON_FILE
+import jetbrains.buildServer.bazel.BazelConstants.PARAM_PROFILE_TRACE_FILE
 import jetbrains.buildServer.bazel.BazelConstants.PARAM_INTEGRATION_MODE
 import jetbrains.buildServer.runner.JavaRunnerConstants
 import jetbrains.buildServer.util.StringUtil
@@ -79,6 +80,12 @@ class BesCommandLineBuilder(
         _parametersService.tryGetParameter(ParameterType.Runner, PARAM_BEP_JSON_FILE)?.trim()?.let {
             if (it.toBoolean()) {
                 besArgs.add("-j=${File(_pathsService.getPath(PathType.AgentTemp), _pathsService.uniqueName + "-build_events.json").absolutePath}")
+            }
+        }
+
+        _parametersService.tryGetParameter(ParameterType.Runner, PARAM_PROFILE_TRACE_FILE)?.trim()?.let {
+            if (it.toBoolean()) {
+                besArgs.add("-t=${File(_pathsService.getPath(PathType.AgentTemp), _pathsService.uniqueName + "-profile.gz").absolutePath}")
             }
         }
 

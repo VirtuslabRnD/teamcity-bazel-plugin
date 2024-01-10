@@ -48,6 +48,7 @@ object BazelConstants {
     const val PARAM_VERBOSITY = "verbosity"
     const val PARAM_INTEGRATION_MODE = "integration"
     const val PARAM_BEP_JSON_FILE = "generateBepJson"
+    const val PARAM_PROFILE_TRACE_FILE = "generateProfileTrace"
 
     // build feature
     const val PARAM_REMOTE_CACHE = "remoteHttpCache"

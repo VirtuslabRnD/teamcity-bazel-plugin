@@ -172,6 +172,15 @@
 </tr>
 
 <tr class="advancedSetting">
+    <th><label for="${params.profileTraceKey}">Also generate a JSON trace profile</label></th>
+    <td>
+        <props:checkboxProperty name="${params.profileTraceKey}" checked="false" className="mediumField">
+        </props:checkboxProperty>
+        <span class="error" id="error_${params.profileTraceKey}"></span>
+    </td>
+</tr>
+
+<tr class="advancedSetting">
     <th><label for="${params.verbosityKey}">Logging verbosity:</label></th>
     <td>
         <props:selectProperty name="${params.verbosityKey}" enableFilter="true" className="mediumField">
