@@ -16,6 +16,7 @@
 
 plugins {
     id 'com.github.rodm.teamcity-server' version '1.4.1'
+    id 'com.github.rodm.teamcity-environments' version '1.4.1'
 }
 
 teamcity {
@@ -29,6 +30,13 @@ teamcity {
             into('kotlin-dsl') {
                 from("${rootProject.projectDir}/kotlin-dsl")
             }
+        }
+    }
+
+    environments {
+        create("tc202305") {
+            version = "2023.05.2"
+            javaHome = file(System.getProperty("java.home"))
         }
     }
 }
