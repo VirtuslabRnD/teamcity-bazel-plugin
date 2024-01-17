@@ -54,6 +54,15 @@ class BazelParametersProvider {
     val profileTraceKey: String
         get() = BazelConstants.PARAM_PROFILE_TRACE_FILE
 
+    val buildJavaVersionKey: String
+        get() = BazelConstants.PARAM_BUILD_JAVA_VERSION
+
+    val runJavaVersionKey: String
+        get() = BazelConstants.PARAM_RUN_JAVA_VERSION
+
+    val javaVersions: List<Int>
+        get() = listOf(8, 11, 17)
+
     val integrationModes: List<IntegrationMode>
         get() = IntegrationMode.values().toList()
 

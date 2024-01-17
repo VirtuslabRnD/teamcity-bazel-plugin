@@ -49,6 +49,8 @@ object BazelConstants {
     const val PARAM_INTEGRATION_MODE = "integration"
     const val PARAM_BEP_JSON_FILE = "generateBepJson"
     const val PARAM_PROFILE_TRACE_FILE = "generateProfileTrace"
+    const val PARAM_BUILD_JAVA_VERSION = "buildJavaVersion"
+    const val PARAM_RUN_JAVA_VERSION = "runJavaVersion"
 
     // build feature
     const val PARAM_REMOTE_CACHE = "remoteHttpCache"

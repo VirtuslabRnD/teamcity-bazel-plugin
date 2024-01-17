@@ -193,6 +193,32 @@
     </td>
 </tr>
 
+<tr class="advancedSetting">
+    <th><label for="${params.buildJavaVersionKey}">Build Java version:</label></th>
+    <td>
+        <props:selectProperty name="${params.buildJavaVersionKey}" enableFilter="true" className="mediumField">
+            <props:option value="">&lt;Default&gt;</props:option>
+            <c:forEach var="item" items="${params.javaVersions}">
+                <props:option value="${item}"><c:out value="${item}"/></props:option>
+            </c:forEach>
+        </props:selectProperty>
+        <span class="error" id="error_${params.buildJavaVersionKey}"></span>
+    </td>
+</tr>
+
+<tr class="advancedSetting">
+    <th><label for="${params.runJavaVersionKey}">Run Java version:</label></th>
+    <td>
+        <props:selectProperty name="${params.runJavaVersionKey}" enableFilter="true" className="mediumField">
+            <props:option value="">&lt;Default&gt;</props:option>
+            <c:forEach var="item" items="${params.javaVersions}">
+                <props:option value="${item}"><c:out value="${item}"/></props:option>
+            </c:forEach>
+        </props:selectProperty>
+        <span class="error" id="error_${params.runJavaVersionKey}"></span>
+    </td>
+</tr>
+
 <script type="text/javascript">
     BS.BazelParametersForm.updateElements();
 </script>

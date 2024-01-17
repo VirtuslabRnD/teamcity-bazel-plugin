@@ -30,6 +30,8 @@ class BazelRunner(
         private val _eventFile: File? = null,
         private val _eventJsonFile: File? = null,
         private val _profileTraceFile: File? = null,
+        private val _buildJavaVersion: Int? = null,
+        private val _runJavaVersion: Int? = null,
         ) {
 
     val args: Sequence<String>
@@ -77,6 +79,14 @@ class BazelRunner(
 
             if (_profileTraceFile != null) {
                 yield("${profileTraceFileArg}${_profileTraceFile.absolutePath}")
+            }
+
+            _buildJavaVersion?.let {
+                yield("--java_language_version=${it}")
+            }
+
+            _runJavaVersion?.let {
+                yield("--java_runtime_version=${it}")
             }
         }
 

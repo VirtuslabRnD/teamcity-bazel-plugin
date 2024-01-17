@@ -46,6 +46,10 @@ class BazelOptions(args: Array<String>) {
 
     val bazelCommandlineFile: File? get() = _line.getOptionValue("c")?.let { File(it) }
 
+    val buildJavaVersion: Int? get() = _line.getOptionValue("build_java_version")?.let { it.toInt() }
+
+    val runJavaVersion: Int? get() = _line.getOptionValue("run_java_version")?.let { it.toInt() }
+
     companion object {
         private val options = createOptions()
         @Suppress("DEPRECATION")
@@ -59,6 +63,8 @@ class BazelOptions(args: Array<String>) {
             options.addOption("j", "json_file", true, "JSON file of build event protocol.")
             options.addOption("t", "profile_trace", true, "Profile trace file.")
             options.addOption("c", "command", true, "Specifies the new line separated file containing bazel executable and its command line arguments.")
+            options.addOption(null, "build_java_version", true, "The version of Java (e. g. 8, 11, 17) to use for building Java targets.")
+            options.addOption(null, "run_java_version", true, "The version of Java (e. g. 8, 11, 17) to use for running Java targets (such as tests).")
             return options
         }
 

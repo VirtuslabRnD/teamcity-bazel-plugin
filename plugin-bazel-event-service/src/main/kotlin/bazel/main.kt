@@ -44,6 +44,8 @@ fun main(args: Array<String>) {
     val profileTraceFile: File?
     val verbosity: Verbosity
     val bazelCommandlineFile: File?
+    val buildJavaVersion: Int?
+    val runJavaVersion: Int?
     try {
         val bazelOptions = BazelOptions(args)
         port = bazelOptions.port
@@ -52,6 +54,8 @@ fun main(args: Array<String>) {
         profileTraceFile = bazelOptions.profileTraceFile
         verbosity = bazelOptions.verbosity
         bazelCommandlineFile = bazelOptions.bazelCommandlineFile
+        buildJavaVersion = bazelOptions.buildJavaVersion
+        runJavaVersion = bazelOptions.runJavaVersion
     } catch (ex: Exception) {
         logger.severe(ex.message)
         BazelOptions.printHelp()
@@ -62,7 +66,7 @@ fun main(args: Array<String>) {
     val messageFactory = MessageFactoryImpl()
 
     if (eventFile != null && bazelCommandlineFile != null) {
-        val bazelRunner = BazelRunner(verbosity, bazelCommandlineFile, 0, eventFile, eventJsonFile, profileTraceFile)
+        val bazelRunner = BazelRunner(verbosity, bazelCommandlineFile, 0, eventFile, eventJsonFile, profileTraceFile, buildJavaVersion, runJavaVersion)
         val commandLine = bazelRunner.args.joinToString(" ") { if (it.contains(' ')) "\"$it\"" else it }
         println("Starting: $commandLine")
         println("in directory: ${bazelRunner.workingDirectory}")
@@ -105,7 +109,7 @@ fun main(args: Array<String>) {
 
                     if (bazelCommandlineFile != null) {
                         try {
-                            val bazelRunner = BazelRunner(verbosity, bazelCommandlineFile, gRpcServer.port, null, eventJsonFile, profileTraceFile)
+                            val bazelRunner = BazelRunner(verbosity, bazelCommandlineFile, gRpcServer.port, null, eventJsonFile, profileTraceFile, buildJavaVersion, runJavaVersion)
                             val commandLine = bazelRunner.args.joinToString(" ") { if (it.contains(' ')) "\"$it\"" else it }
                             println("Starting: $commandLine")
                             println("in directory: ${bazelRunner.workingDirectory}")

@@ -20,6 +20,8 @@ import jetbrains.buildServer.RunBuildException
 import jetbrains.buildServer.agent.FileSystemService
 import jetbrains.buildServer.agent.runner.*
 import jetbrains.buildServer.bazel.BazelConstants.PARAM_BEP_JSON_FILE
+import jetbrains.buildServer.bazel.BazelConstants.PARAM_BUILD_JAVA_VERSION
+import jetbrains.buildServer.bazel.BazelConstants.PARAM_RUN_JAVA_VERSION
 import jetbrains.buildServer.bazel.BazelConstants.PARAM_PROFILE_TRACE_FILE
 import jetbrains.buildServer.bazel.BazelConstants.PARAM_INTEGRATION_MODE
 import jetbrains.buildServer.runner.JavaRunnerConstants
@@ -86,6 +88,18 @@ class BesCommandLineBuilder(
         _parametersService.tryGetParameter(ParameterType.Runner, PARAM_PROFILE_TRACE_FILE)?.trim()?.let {
             if (it.toBoolean()) {
                 besArgs.add("-t=${File(_pathsService.getPath(PathType.AgentTemp), _pathsService.uniqueName + "-profile.gz").absolutePath}")
+            }
+        }
+
+        _parametersService.tryGetParameter(ParameterType.Runner, PARAM_BUILD_JAVA_VERSION)?.trim()?.let {
+            it.toIntOrNull()?.let { version ->
+                besArgs.add("--build_java_version=${version}")
+            }
+        }
+
+        _parametersService.tryGetParameter(ParameterType.Runner, PARAM_RUN_JAVA_VERSION)?.trim()?.let {
+            it.toIntOrNull()?.let { version ->
+                besArgs.add("--run_java_version=${version}")
             }
         }
 
