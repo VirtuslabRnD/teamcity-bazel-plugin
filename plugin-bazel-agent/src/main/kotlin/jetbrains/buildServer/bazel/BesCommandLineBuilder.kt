@@ -1,23 +1,8 @@
-/*
- * Copyright 2000-2023 JetBrains s.r.o.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 
 package jetbrains.buildServer.bazel
 
 import jetbrains.buildServer.RunBuildException
-import jetbrains.buildServer.agent.FileSystemService
 import jetbrains.buildServer.agent.runner.*
 import jetbrains.buildServer.bazel.BazelConstants.PARAM_BEP_JSON_FILE
 import jetbrains.buildServer.bazel.BazelConstants.PARAM_BUILD_JAVA_VERSION
@@ -36,9 +21,9 @@ class BesCommandLineBuilder(
     : CommandLineBuilder {
     override fun build(command: BazelCommand): ProgramCommandLine {
         val sb = StringBuilder()
-        sb.appendln(_pathsService.toolPath)
+        sb.appendLine(_pathsService.toolPath)
         for (arg in _argumentsConverter.convert(getArgs(command))) {
-            sb.appendln(StringUtil.unquoteString(arg))
+            sb.appendLine(StringUtil.unquoteString(arg))
         }
 
         val bazelCommandFile = File(_pathsService.getPath(PathType.AgentTemp), _pathsService.uniqueName)
