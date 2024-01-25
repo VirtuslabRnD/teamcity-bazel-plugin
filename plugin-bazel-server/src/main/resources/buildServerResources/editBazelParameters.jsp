@@ -205,6 +205,14 @@
     </td>
 </tr>
 
+<tr class="advancedSetting">
+    <th><label for="${params.javaHomeKey}">Override JAVA_HOME:</label></th>
+    <td>
+        <props:textProperty name="${params.javaHomeKey}" className="longField"/>
+        <span class="error" id="error_${params.javaHomeKey}"></span>
+    </td>
+</tr>
+
 <script type="text/javascript">
     BS.BazelParametersForm.updateElements();
 </script>

@@ -36,6 +36,8 @@ class BazelOptions(args: Array<String>) {
 
     val runJavaVersion: Int? get() = _line.getOptionValue("run_java_version")?.let { it.toInt() }
 
+    val javaHome: File? get() = _line.getOptionValue("java_home")?.let { File(it) }
+
     companion object {
         private val options = createOptions()
         @Suppress("DEPRECATION")
@@ -51,6 +53,7 @@ class BazelOptions(args: Array<String>) {
             options.addOption("c", "command", true, "Specifies the new line separated file containing bazel executable and its command line arguments.")
             options.addOption(null, "build_java_version", true, "The version of Java (e. g. 8, 11, 17) to use for building Java targets.")
             options.addOption(null, "run_java_version", true, "The version of Java (e. g. 8, 11, 17) to use for running Java targets (such as tests).")
+            options.addOption(null, "java_home", true, "The path to a Java installation which will override JAVA_HOME.")
             return options
         }
 

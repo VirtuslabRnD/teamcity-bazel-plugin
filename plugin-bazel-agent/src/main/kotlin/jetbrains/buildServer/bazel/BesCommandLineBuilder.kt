@@ -9,6 +9,7 @@ import jetbrains.buildServer.bazel.BazelConstants.PARAM_BUILD_JAVA_VERSION
 import jetbrains.buildServer.bazel.BazelConstants.PARAM_RUN_JAVA_VERSION
 import jetbrains.buildServer.bazel.BazelConstants.PARAM_PROFILE_TRACE_FILE
 import jetbrains.buildServer.bazel.BazelConstants.PARAM_INTEGRATION_MODE
+import jetbrains.buildServer.bazel.BazelConstants.PARAM_JAVA_HOME
 import jetbrains.buildServer.runner.JavaRunnerConstants
 import jetbrains.buildServer.util.StringUtil
 import java.io.File
@@ -86,6 +87,10 @@ class BesCommandLineBuilder(
             it.toIntOrNull()?.let { version ->
                 besArgs.add("--run_java_version=${version}")
             }
+        }
+
+        _parametersService.tryGetParameter(ParameterType.Runner, PARAM_JAVA_HOME)?.trim()?.let {
+            besArgs.add("--java_home=${it}")
         }
 
         return SimpleProgramCommandLine(

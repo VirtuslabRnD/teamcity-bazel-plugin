@@ -37,6 +37,7 @@ object BazelConstants {
     const val PARAM_PROFILE_TRACE_FILE = "generateProfileTrace"
     const val PARAM_BUILD_JAVA_VERSION = "buildJavaVersion"
     const val PARAM_RUN_JAVA_VERSION = "runJavaVersion"
+    const val PARAM_JAVA_HOME = "javaHome"
 
     // build feature
     const val PARAM_REMOTE_CACHE = "remoteHttpCache"

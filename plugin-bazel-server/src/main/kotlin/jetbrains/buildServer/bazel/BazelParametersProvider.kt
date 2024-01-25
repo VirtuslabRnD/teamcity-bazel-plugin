@@ -49,6 +49,9 @@ class BazelParametersProvider {
     val javaVersions: List<Int>
         get() = listOf(8, 11, 17)
 
+    val javaHomeKey: String
+        get() = BazelConstants.PARAM_JAVA_HOME
+
     val integrationModes: List<IntegrationMode>
         get() = IntegrationMode.values().toList()
 

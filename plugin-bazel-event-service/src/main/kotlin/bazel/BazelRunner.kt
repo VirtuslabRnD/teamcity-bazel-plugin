@@ -18,6 +18,7 @@ class BazelRunner(
         private val _profileTraceFile: File? = null,
         private val _buildJavaVersion: Int? = null,
         private val _runJavaVersion: Int? = null,
+        private val _javaHome: File? = null,
         ) {
 
     val args: Sequence<String>
@@ -79,9 +80,12 @@ class BazelRunner(
     val workingDirectory: File = File(".").absoluteFile
 
     fun run(): Result {
-        val process = ProcessBuilder(args.toList())
+        val pb = ProcessBuilder(args.toList())
                 .directory(workingDirectory)
-                .start()
+        _javaHome?.let {
+            pb.environment()["JAVA_HOME"] = it.absolutePath.toString()
+        }
+        val process = pb.start()
 
         val errors = mutableListOf<String>()
 
