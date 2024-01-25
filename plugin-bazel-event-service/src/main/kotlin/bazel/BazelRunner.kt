@@ -72,7 +72,7 @@ class BazelRunner(
             }
 
             _runJavaVersion?.let {
-                yield("--java_runtime_version=${it}")
+                yield("--java_runtime_version=remotejdk_${it}")
             }
         }
 
