@@ -6,7 +6,7 @@ import jetbrains.buildServer.RunBuildException
 import jetbrains.buildServer.agent.runner.*
 import jetbrains.buildServer.bazel.BazelConstants.PARAM_INTEGRATION_MODE
 import jetbrains.buildServer.runner.JavaRunnerConstants
-import jetbrains.buildServer.util.StringUtil
+import jetbrains.buildServer.util.StringUtil.unquoteString
 import java.io.File
 
 class BesCommandLineBuilder(
@@ -16,14 +16,20 @@ class BesCommandLineBuilder(
         private val _argumentsConverter: ArgumentsConverter)
     : CommandLineBuilder {
     override fun build(command: BazelCommand): ProgramCommandLine {
-        val sb = StringBuilder()
-        sb.appendLine(_pathsService.toolPath)
-        for (arg in _argumentsConverter.convert(getArgs(command))) {
-            sb.appendLine(StringUtil.unquoteString(arg))
+        val bazelRcFile = File(_pathsService.getPath(PathType.AgentTemp), _pathsService.uniqueName)
+        val buildId = _parametersService.tryGetParameter(ParameterType.System, "teamcity.buildType.id")
+
+        bazelRcFile.printWriter().let { wr ->
+            _argumentsConverter.buildRcLines(command, buildId).forEach { wr.println(unquoteString(it)) }
+            wr.close()
         }
 
         val bazelCommandFile = File(_pathsService.getPath(PathType.AgentTemp), _pathsService.uniqueName)
-        bazelCommandFile.writeText(sb.toString())
+        bazelCommandFile.printWriter().let { wr ->
+            wr.println(_pathsService.toolPath)
+            _argumentsConverter.buildCommandLines(command, bazelRcFile).forEach { wr.println(unquoteString(it)) }
+            wr.close()
+        }
 
         // get java executable
         val environmentVariables = _parametersService.getParameterNames(ParameterType.Environment).associate { it to _parametersService.tryGetParameter(ParameterType.Environment, it) }.toMutableMap()
@@ -67,12 +73,5 @@ class BesCommandLineBuilder(
                 besArgs)
     }
 
-    private fun getArgs(command: BazelCommand): Sequence<CommandArgument> = sequence {
-        yieldAll(command.arguments)
-        _parametersService.tryGetParameter(ParameterType.System, "teamcity.buildType.id")?.let {
-            if (!it.isBlank()) {
-                yield(CommandArgument(CommandArgumentType.Argument, "--project_id=$it"))
-            }
-        }
-    }
+
 }
